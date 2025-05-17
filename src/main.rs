@@ -4,26 +4,11 @@ pub mod compiler;
 pub mod lexer;
 pub mod parser;
 
-use parser::Parser;
+use clap::Parser;
+use cli::Cli;
 
 fn main() {
-    let source = r#"
-        [List]
-        struct MyItem {
-            name: String,
-            count: i32,
-        }
+    let args = Cli::parse();
 
-        struct Config {
-            items: MyItem[],
-            enabled: bool,
-        }
-    "#;
-
-    let mut parser = Parser::new(source);
-    let structs = parser.parse();
-
-    for s in structs {
-        println!("{:#?}", s);
-    }
+    compiler::compile(&args);
 }
